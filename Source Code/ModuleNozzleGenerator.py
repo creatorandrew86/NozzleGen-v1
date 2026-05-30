@@ -27,9 +27,9 @@
 ################################################################################
 
 import math
-import pandas as pd
 import numpy as np
 from scipy.interpolate import interp1d
+import NozzleData
 
 
 
@@ -44,13 +44,9 @@ def bellNozzleGenerator(Rt, N, eps, Cr, Lstar, r1, r2, r3, length_percentage, in
 
     # X-axis interpolation to find the "eps" range
     for p in percentages:
-        n_data = pd.read_csv(f"{"Nozzle_Data"}/thetan_{p}.csv") 
-        e_data = pd.read_csv(f"{"Nozzle_Data"}/thetae_{p}.csv")
+        n_data = NozzleData.NOZZLE_DATA[f"thetan_{p}"]
+        e_data = NozzleData.NOZZLE_DATA[f"thetae_{p}"]
 
-        # Input headers
-        n_data.columns = n_data.columns.str.strip().str.replace('\ufeff', '')
-        e_data.columns = e_data.columns.str.strip().str.replace('\ufeff', '')
-        
         # Create interpolators along epsilon (X) axis
         interp_n = interp1d(n_data["X"], n_data["Y"], kind="linear", fill_value="extrapolate")
         interp_e = interp1d(e_data["X"], e_data["Y"], kind="linear", fill_value="extrapolate")

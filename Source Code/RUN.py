@@ -1,4 +1,3 @@
-
 ################################################################################
 # NozzleGen — Compiler
 # --------------------
@@ -36,8 +35,13 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
 import time
+from pathlib import Path
 import matplotlib.pyplot as plt
+import NozzleData
 import ModuleNozzleGenerator
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 
 def bellNozzle():
@@ -462,7 +466,7 @@ bell_frame_entries.append(r2_entry)
 
 
 # R3/Rt entry
-r3_label = ttk.Label(bell_frame, text="R3/Rt: *")
+r3_label = ttk.Label(bell_frame, text="R3/Rt:")
 r3_label.grid(row=3, column=2, padx=5, pady=5, sticky='W')
 r3_label.config(state="disabled")
 bell_frame_labels.append(r3_label)
@@ -591,7 +595,7 @@ conical_frame_entries.append(r2_entry2)
 
 
 # R3/Rt entry
-r3_label2 = ttk.Label(conical_frame, text="R3/Rt: *")
+r3_label2 = ttk.Label(conical_frame, text="R3/Rt:")
 r3_label2.grid(row=3, column=2, padx=5, pady=5, sticky='W')
 r3_label2.config(state="disabled")
 conical_frame_labels.append(r3_label2)
@@ -640,7 +644,7 @@ img_frame =tk.Frame(root)
 img_frame.grid(row=5, column=0, padx=10, pady=10, sticky='W')
 
 # Load and show image 1
-image1_path = "Image1.png"  
+image1_path = SCRIPT_DIR / "Image1.png"  
 image1 = Image.open(image1_path)
 image1 = image1.resize((420, 200))
 photo1 = ImageTk.PhotoImage(image1)
@@ -655,7 +659,7 @@ img_label1.grid(row=0, column=0)
 
 
 # Load and show image 2
-image2_path = "Image2.png"  
+image2_path = SCRIPT_DIR / "Image2.png"  
 image2 = Image.open(image2_path)
 image2 = image2.resize((420, 200))
 photo2 = ImageTk.PhotoImage(image2)
