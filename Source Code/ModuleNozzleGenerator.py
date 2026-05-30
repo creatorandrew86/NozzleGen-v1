@@ -90,7 +90,7 @@ def bellNozzleGenerator(Rt, N, eps, Cr, Lstar, r1, r2, r3, length_percentage, in
     N1 = int (0.1 * N)
     N2 = int (0.15 * N)
     N3 = int (0.2 * N)
-    N4 = int (0.55 * N)
+    N4 = N - N1 - N2 - N3
 
     # Add the injector plate (xc) point, if the user provides the characteristic length, r1 and r2
     if (Lstar != 0 and r1 != 0 and r2 != 0):
@@ -196,15 +196,19 @@ def bellNozzleGenerator(Rt, N, eps, Cr, Lstar, r1, r2, r3, length_percentage, in
 
 
     # Section 4 -> Divergent section
-    for i in range(N4):
-        t = i / N4
+    if (N4 > 1):
+        for i in range(N4):
+            t = i / (N4 - 1)
 
-        # Points x and y in terms of parameter t and the coordinates of Points 0, 1 and 2
-        x = pow(1-t, 2) * P0x + 2 * t * (1-t) * P1x + pow(t, 2) * P2x
-        y = pow(1-t, 2) * P0y + 2 * t * (1-t) * P1y + pow(t, 2) * P2y
+            # Points x and y in terms of parameter t and the coordinates of Points 0, 1 and 2
+            x = pow(1-t, 2) * P0x + 2 * t * (1-t) * P1x + pow(t, 2) * P2x
+            y = pow(1-t, 2) * P0y + 2 * t * (1-t) * P1y + pow(t, 2) * P2y
 
-        xList.append(x)
-        yList.append(y)
+            xList.append(x)
+            yList.append(y)
+    else:
+        xList.append(P2x)
+        yList.append(P2y)
 
 
     return xList, yList
@@ -229,7 +233,7 @@ def conicalNozzleGenerator(Rt, N, eps, Cr, Lstar, r1, r2, r3, theta_max):
     N1 = int (0.2 * N)
     N2 = int (0.25 * N)
     N3 = int (0.35 * N)
-    N4 = int (0.2 * N)
+    N4 = N - N1 - N2 - N3
 
     # Add the injector plate (xc) point, if the user provides the characteristic length, r1 and r2
     if (Lstar != 0 and r1 != 0 and r2 != 0):
@@ -308,19 +312,21 @@ def conicalNozzleGenerator(Rt, N, eps, Cr, Lstar, r1, r2, r3, theta_max):
     x1, y1 = xList[-1], yList[-1]
 
     # The interval at which points are analyzed (x-axis)
-    dx = (Ln - x1) / N4
-    
-    print(x1, y1, dx)
+    dx = (Ln - x1) / (N4 - 1)
 
     # Section 4 -> Divergent section
-    for i in range(N4):
-        # Points generation
-        x = x1 + i * dx
-        y = y1 + math.tan(math.radians(theta)) * i * dx
+    if (N4 > 1):
+        for i in range(N4):
+            # Points generation
+            x = x1 + i * dx
+            y = y1 + math.tan(math.radians(theta)) * i * dx
 
 
-        xList.append(x)
-        yList.append(y)
+            xList.append(x)
+            yList.append(y)
+    else:
+        xList.append(Ln)
+        yList.append(Rt * math.sqrt(eps))
 
 
     return xList, yList

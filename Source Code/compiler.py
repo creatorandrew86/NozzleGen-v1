@@ -263,7 +263,7 @@ def export_dat():
 
     # Write data to the chosen file
     with open(filename, "w") as f:
-        for i in range(N):
+        for i in range(len(xList)):
             f.write(f"{xList[i]} {yList[i]}\n")
 
 
